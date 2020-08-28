@@ -4,17 +4,26 @@ class minimaxAI:
     def __init__(self, player):
         self.player = player
 
-
     def getMove(self, board):
-        best = 999
+        if self.player == 2:
+            best = 999
+        else:
+            best = -999
+
         aiMove = -1
         for r in range(len(board)):
             for c in range(len(board)):
                 if board[r][c] == 0:
                     tempBoard = deepcopy(board)
-                    tempBoard[r][c] = 2
-                    val = self.minimax(tempBoard, 1)
-                    if val < best:
+                    tempBoard[r][c] = self.player
+                    if self.player == 2:
+                        val = self.minimax(tempBoard, 1)
+                    else:
+                        val = self.minimax(tempBoard, 2)
+                    if self.player == 2 and val < best:
+                        best = val
+                        aiMove = r*3 + c + 1
+                    elif self.player == 1 and val > best:
                         best = val
                         aiMove = r*3 + c + 1
         return aiMove
@@ -80,5 +89,4 @@ class minimaxAI:
 
         # No player has won or tied, return -1 for "game is still going
         return -1
-
 
