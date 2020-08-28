@@ -17,6 +17,9 @@ if aiNum == 1:
         g.printBoard()
         if currentTurn == 1:
             pos = playerTurn()
+            while not g.legalMove(pos):
+                print('Not a legal move, please choose again')
+                pos = playerTurn()
             g.playMove(pos, 1)
             currentTurn = 2
         else:
@@ -41,6 +44,9 @@ elif aiNum == 2:
         g.printBoard()
         if currentTurn == 1:
             pos = playerTurn()
+            while not g.legalMove(pos):
+                print('Not a legal move, please choose again')
+                pos = playerTurn()
             g.playMove(pos, 1)
             currentTurn = 2
         else:
@@ -57,6 +63,8 @@ elif aiNum == 2:
         print("computer won")
     else:
         print("its a tie")
+
+
 
 
 
