@@ -6,6 +6,13 @@ class Game:
 
         self.current_player = 1
 
+    def legalMove(self, pos):
+        playR = int((pos - 1) / 3)
+        playC = (pos - 1) - (playR * 3)
+        if self.board[playR][playC] == 0:
+            return True
+        return False
+
     def printBoard(self):
         symb = [' ', 'X', 'O']  # Symbols for the board. Only needed to display the board
 
@@ -62,3 +69,4 @@ class Game:
             self.board[playR][playC] = player
         else:
             return None
+`
