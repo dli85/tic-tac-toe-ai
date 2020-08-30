@@ -102,11 +102,11 @@ def RandP1NNSP2():
         else:
             drawCount += 1
 
-        #print('Finished ' + str(i+1) + ' games')
+        print('Finished ' + str(i+1) + ' games')
 
     print('[P1: Rand, P2: Neural Net] Player 1 won: ' + str(player1WinCount) + ' games, player 2 won ' + str(player2WinCount) + ' games, it was a draw ' + str(drawCount) + ' times')
 
 if __name__ == '__main__':
+    RandP1NNSP2()
     MiniP1RandP2()
     RandP1RandP2()
-    RandP1NNSP2()
