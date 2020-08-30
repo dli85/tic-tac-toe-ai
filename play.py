@@ -24,7 +24,7 @@ if aiNum == 1:
             g.playMove(pos, 1)
             currentTurn = 2
         else:
-            pos = agent.selectMove(g.board)
+            pos = agent.getMove(g.board)
             g.playMove(pos, 2)
             currentTurn = 1
             print('Ai has played at position', pos)

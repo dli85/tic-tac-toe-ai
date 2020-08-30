@@ -4,7 +4,7 @@ class RandomAI:
     def __init__(self, playerNum):
         self.playerNum = playerNum
 
-    def selectMove(self, board):
+    def getMove(self, board):
         states = []
         for r in board:
             for c in r:

@@ -22,7 +22,7 @@ def MiniP1RandP2():
                 g.playMove(pos, 1)
                 currentPlayer = 2
             else:
-                pos = player2.selectMove(g.board)
+                pos = player2.getMove(g.board)
                 g.playMove(pos, 2)
                 currentPlayer = 1
 
@@ -52,11 +52,11 @@ def RandP1RandP2():
 
         while g.checkWinner() == -1:
             if currentPlayer == 1:
-                pos = player1.selectMove(g.board)
+                pos = player1.getMove(g.board)
                 g.playMove(pos, 1)
                 currentPlayer = 2
             else:
-                pos = player2.selectMove(g.board)
+                pos = player2.getMove(g.board)
                 g.playMove(pos, 2)
                 currentPlayer = 1
 
@@ -87,7 +87,7 @@ def RandP1NNSP2():
 
         while g.checkWinner() == -1:
             if currentPlayer == 1:
-                pos = player1.selectMove(g.board)
+                pos = player1.getMove(g.board)
                 g.playMove(pos, 1)
                 currentPlayer = 2
             else:

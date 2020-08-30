@@ -45,11 +45,11 @@ class DataCollector:
 
         while self.game.checkWinner() == -1:
             if currentTurn == 1:
-                pos = player1.selectMove(self.game.board)
+                pos = player1.getMove(self.game.board)
                 self.game.playMove(pos, 1)
                 currentTurn = 2
             else:
-                pos = player2.selectMove(self.game.board)
+                pos = player2.getMove(self.game.board)
                 self.game.playMove(pos, 2)
                 currentTurn = 1
             currentGame.append(deepcopy(self.game.board))
@@ -67,7 +67,7 @@ class DataCollector:
 
         while self.game.checkWinner() == -1:
             if currentTurn == 1:
-                pos = player1.selectMove(self.game.board)
+                pos = player1.getMove(self.game.board)
                 self.game.playMove(pos, 1)
                 currentTurn = 2
             else:
