@@ -1,0 +1,112 @@
+from randomAi import RandomAI
+from game import Game
+from minimaxAi import minimaxAI
+from NNS import NeuralNetworkSupervised
+
+def MiniP1RandP2():
+    player1 = minimaxAI(1)
+    player2 = RandomAI(2)
+
+    player1WinCount = 0
+    player2WinCount = 0
+    drawCount = 0
+
+    for i in range(100):
+
+        g = Game()
+        currentPlayer = 1
+
+        while g.checkWinner() == -1:
+            if currentPlayer == 1:
+                pos = player1.getMove(g.board)
+                g.playMove(pos, 1)
+                currentPlayer = 2
+            else:
+                pos = player2.selectMove(g.board)
+                g.playMove(pos, 2)
+                currentPlayer = 1
+
+        if g.checkWinner() == 1:
+            player1WinCount += 1
+        elif g.checkWinner() == 2:
+            player2WinCount += 1
+        else:
+            drawCount += 1
+
+        print('Finished ' + str(i+1) + ' games')
+
+    print('[P1: minimax, P2: rand] Player 1 won: ' + str(player1WinCount) + ' games, player 2 won ' + str(player2WinCount) + ' games, it was a draw ' + str(drawCount) + ' times')
+
+def RandP1RandP2():
+    player1 = RandomAI(1)
+    player2 = RandomAI(2)
+
+    player1WinCount = 0
+    player2WinCount = 0
+    drawCount = 0
+
+    for i in range(100):
+
+        g = Game()
+        currentPlayer = 1
+
+        while g.checkWinner() == -1:
+            if currentPlayer == 1:
+                pos = player1.selectMove(g.board)
+                g.playMove(pos, 1)
+                currentPlayer = 2
+            else:
+                pos = player2.selectMove(g.board)
+                g.playMove(pos, 2)
+                currentPlayer = 1
+
+        if g.checkWinner() == 1:
+            player1WinCount += 1
+        elif g.checkWinner() == 2:
+            player2WinCount += 1
+        else:
+            drawCount += 1
+
+        #print('Finished ' + str(i+1) + ' games')
+
+    print('[P1: rand, P2: rand] Player 1 won: ' + str(player1WinCount) + ' games, player 2 won ' + str(player2WinCount) + ' games, it was a draw ' + str(drawCount) + ' times')
+
+def RandP1NNSP2():
+    player1 = RandomAI(1)
+    player2 = NeuralNetworkSupervised(2)
+    player2.loadModel('NNRand.h5')
+
+    player1WinCount = 0
+    player2WinCount = 0
+    drawCount = 0
+
+    for i in range(100):
+
+        g = Game()
+        currentPlayer = 1
+
+        while g.checkWinner() == -1:
+            if currentPlayer == 1:
+                pos = player1.selectMove(g.board)
+                g.playMove(pos, 1)
+                currentPlayer = 2
+            else:
+                pos = player2.getMove(g.board)
+                g.playMove(pos, 2)
+                currentPlayer = 1
+
+        if g.checkWinner() == 1:
+            player1WinCount += 1
+        elif g.checkWinner() == 2:
+            player2WinCount += 1
+        else:
+            drawCount += 1
+
+        #print('Finished ' + str(i+1) + ' games')
+
+    print('[P1: Rand, P2: Neural Net] Player 1 won: ' + str(player1WinCount) + ' games, player 2 won ' + str(player2WinCount) + ' games, it was a draw ' + str(drawCount) + ' times')
+
+if __name__ == '__main__':
+    MiniP1RandP2()
+    RandP1RandP2()
+    RandP1NNSP2()
