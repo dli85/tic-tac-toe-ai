@@ -4,8 +4,8 @@ from game import Game
 import numpy as np
 from copy import deepcopy
 import pickle
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.models import Sequential
+#from tensorflow.keras.layers import Dense, Dropout
+#from tensorflow.keras.models import Sequential
 
 class DataCollector:
     def __init__(self):
@@ -15,20 +15,24 @@ class DataCollector:
     def reset(self):
         self.game = Game()
 
-    def doTraining(self, numGames=10000):
-        player1WinCount = 0
-        player2WinCount = 0
-        drawCount = 0
-
+    def doCollection(self, numGames=10000):
+        self.history = []
         for i in range(numGames):
             self.reset()
-            winner = self.playGame()
+            self.playGame()
             print('Completed ' + str(i+1) + ' out of ' + str(numGames))
-            if winner == 1: player1WinCount += 1
-            if winner == 2: player2WinCount += 1
-            if winner == 0: drawCount += 1
 
         with open('training.pkl', 'wb') as file:
+            pickle.dump(self.history, file)
+
+    def doCollectionRand(self, numGames=10000):
+        self.history = []
+        for i in range(numGames):
+            self.reset()
+            self.playGameRand()
+            print('Completed ' + str(i+1) + ' out of ' + str(numGames))
+
+        with open('trainingRand.pkl', 'wb') as file:
             pickle.dump(self.history, file)
 
     def openData(self):
@@ -36,6 +40,27 @@ class DataCollector:
             newList = pickle.load(file)
         #print(newList)
 
+    def playGameRand(self):
+        player1 = RandomAI(1)
+        player2 = RandomAI(2)
+        currentTurn = 1
+        winner = -1
+        currentGame = []
+
+        while self.game.checkWinner() == -1:
+            if currentTurn == 1:
+                pos = player1.selectMove(self.game.board)
+                self.game.playMove(pos, 1)
+                currentTurn = 2
+            else:
+                pos = player2.selectMove(self.game.board)
+                self.game.playMove(pos, 2)
+                currentTurn = 1
+            currentGame.append(deepcopy(self.game.board))
+
+        winner = self.game.checkWinner()
+        for gameState in currentGame:
+            self.history.append((winner, deepcopy(gameState)))
 
     def playGame(self):
         player1 = RandomAI(1)
@@ -59,14 +84,12 @@ class DataCollector:
         for gameState in currentGame:
             self.history.append((winner, deepcopy(gameState)))
 
-        return winner
-
-
 class NeuralNetworkSupervised:
     def __init__(self, inputDims, outputDims, epochs, batchSize = 32):
         pass
 
 if __name__ == '__main__':
     d = DataCollector()
-    #d.doTraining()
+    #d.doCollection()
+    d.doCollectionRand()
     #d.openData()
