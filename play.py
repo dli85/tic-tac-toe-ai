@@ -68,7 +68,7 @@ elif aiNum == 3:
     currentTurn = 1
     g = Game()
     agent = NeuralNetworkSupervised(2)
-    agent.loadModel('NNRand.h5')
+    agent.loadModel('models/NNRand.h5')
 
     while g.checkWinner() == -1:
         g.printBoard()

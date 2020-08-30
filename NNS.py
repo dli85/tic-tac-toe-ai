@@ -23,7 +23,7 @@ class DataCollector:
             self.playGame()
             print('Completed ' + str(i+1) + ' out of ' + str(numGames))
 
-        with open('training.pkl', 'wb') as file:
+        with open('data/training.pkl', 'wb') as file:
             pickle.dump(self.history, file)
 
     def doCollectionRand(self, numGames=10000):
@@ -33,7 +33,7 @@ class DataCollector:
             self.playGameRand()
             print('Completed ' + str(i+1) + ' out of ' + str(numGames))
 
-        with open('trainingRand.pkl', 'wb') as file:
+        with open('data/trainingRand.pkl', 'wb') as file:
             pickle.dump(self.history, file)
 
     def playGameRand(self):
@@ -100,10 +100,10 @@ class NeuralNetworkSupervised:
         self.data, self.dataRand = self.loadData()
 
     def loadData(self, fileName1='training.pkl', fileName2='trainingRand.pkl'):
-        with open('training.pkl', 'rb')as file:
+        with open('data/training.pkl', 'rb')as file:
             minimaxData = pickle.load(file)
 
-        with open('trainingRand.pkl', 'rb')as file:
+        with open('data/trainingRand.pkl', 'rb')as file:
             randData = pickle.load(file)
 
         return minimaxData, randData
@@ -130,7 +130,7 @@ class NeuralNetworkSupervised:
         feature_train, label_train, feature_test, label_test = self.splitData(inputs, outputs)
 
         self.model.fit(feature_train, label_train, validation_data=(feature_test, label_test), epochs=self.epochs, batch_size=self.batchSize)
-        self.saveModel('NNMini.h5')
+        self.saveModel('models/NNMini.h5')
 
     def doTrainingRand(self):
         features = []
@@ -145,7 +145,7 @@ class NeuralNetworkSupervised:
         feature_train, label_train, feature_test, label_test = self.splitData(inputs, outputs)
 
         self.model.fit(feature_train, label_train, validation_data=(feature_test, label_test), epochs=self.epochs, batch_size=self.batchSize)
-        self.saveModel('NNRand.h5')
+        self.saveModel('models/NNRand.h5')
 
     def saveModel(self, name):
         self.model.save(name)

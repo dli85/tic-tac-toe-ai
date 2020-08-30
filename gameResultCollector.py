@@ -74,7 +74,7 @@ def RandP1RandP2():
 def RandP1NNSP2():
     player1 = RandomAI(1)
     player2 = NeuralNetworkSupervised(2)
-    player2.loadModel('NNRand.h5')
+    player2.loadModel('models/NNRand.h5')
 
     player1WinCount = 0
     player2WinCount = 0
