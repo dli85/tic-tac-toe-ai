@@ -1,6 +1,11 @@
 # tic-tac-toe-ai
 
-Several algorithms for the game tic tac toe.
+Several algorithms for the game tic tac toe:
+
+- Random (not very good)
+- Minimax (unbeatable)
+- Neural Network Supervised Learning (Not very good)
+- Neural Network Reinforcement Learning
 
 ## Random
 
@@ -12,8 +17,22 @@ Minimax is the "standard" tic-tac-toe algorithm. It is able to play a perfect ga
 
 Although minimax can play the game perfectly, it is very inefficient as minimax must go through all possibilities that the game can end. For a game like chess or go, a pure minimax algorithm wouldn't be feasible as chess and go have way too many possible outcomes and going through all of them would take way too much time (There are more configurations of the go board than there are atoms in the observable universe). Even with a game as small as tic-tac-toe, the minimax algorithm takes a non-negligible amount of time to calculate a move.
 
-## Neural Network (Supervised learning) - unfinished
+## Neural Network (Supervised learning)
 
-Another way to construct a tic-tac-toe algorithm is to use a neural-network with supervised learning. The idea is to feed the algorithm a dataset and teach it to predict whether certain moves would result in a favorable outcome or an unfavorable outcome. We first create a dataset of tic-tac-toe moves.
+Another way to construct a tic-tac-toe algorithm is to use a neural-network with supervised learning. The algorithm works by first constructing a dataset of many tic-tac-toe game histories. The features will consist of board states and the labels will be which player won. The data is collected by having two random bots play against each other and recording the outcomes. The model is then trained using the data to predict which player will win from a given board state.
+
+In a game scenario, the ai will first make an list of all the possible froms from the current board state. The model then predicts, for each new board state, which player will win. The model will then chose the move that gives itself the highest probability of winning.
+
+You may notice that the neural network is not very good at defeating humans. This is because of the quaility of the dataset and the method of learning. The dataset only consisted of many randomAi vs randomAi games. Thus, predicting a winner for a given board state would be based on how a randomai bot might move, not how a minimax or a human would play. Also, a pure supervised learning strategy is not very effective for teaching models how to play games. The more effective strategy would be reinforcement learning...
 
 ## Neural Network (Reinforcement learning) - unfinished
+
+# Usage
+
+Run the play.py file to play against any of the ai's
+
+The randomAi.py, minimaxAi.py, and NNS.py files contain the random bot, minimax bot, and neural network supervised learning bot respectively.
+
+Run the datacollection.py file to see the results of AI's playing against each other.
+
+The game.py file contains the tic-tac-toe game
