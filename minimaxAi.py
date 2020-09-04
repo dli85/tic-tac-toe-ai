@@ -1,4 +1,5 @@
 from copy import deepcopy
+import random
 
 class minimaxAI:
     def __init__(self, player):
@@ -10,6 +11,8 @@ class minimaxAI:
         else:
             best = -999
 
+        bestMoves = []
+
         aiMove = -1
         for r in range(len(board)):
             for c in range(len(board)):
@@ -20,13 +23,18 @@ class minimaxAI:
                         val = self.minimax(tempBoard, 1)
                     else:
                         val = self.minimax(tempBoard, 2)
+
                     if self.player == 2 and val < best:
                         best = val
                         aiMove = r*3 + c + 1
+                        bestMoves.append(aiMove)
                     elif self.player == 1 and val > best:
                         best = val
                         aiMove = r*3 + c + 1
-        return aiMove
+                        bestMoves.append(aiMove)
+
+        selectedMove = random.choice(bestMoves)
+        return selectedMove
 
     def minimax(self, temp_board, playerMaximizing):
         if self.checkWinner(temp_board) != -1:
