@@ -9,7 +9,7 @@ from tqdm import tqdm
 player1t = True
 
 class NeuralNetworkReinforcement:
-    def __init__(self):
+    def __init__(self, player):
         self.modelP1 = keras.models.Sequential()
 
         self.modelP1.add(keras.layers.Dense(units=130, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
@@ -28,18 +28,17 @@ class NeuralNetworkReinforcement:
         self.modelP2.add(keras.layers.Dense(9, kernel_initializer='random_uniform', bias_initializer='zeros'))
         self.modelP2.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
+        self.player = player
 
         try:
             self.modelP1 = keras.models.load_model('models/NNRp1.h5')
-            print('Model 1 loaded')
         except:
-            print('Model1 not found, creating a new one')
+            print('Model1 failed to load')
 
         try:
             self.modelP2 = keras.models.load_model('models/NNRp2.h5')
-            print('Model 2 loaded')
         except:
-            print('Model2 not found, creating a new one')
+            print('Model2 failed to load')
 
         self.gamma = 0.7
         self.epsilon = 0.7
@@ -196,19 +195,33 @@ class NeuralNetworkReinforcement:
         self.allGameHistory = []
 
     def getMove(self, board):
-        best = -999
-        Qs = self.modelP2.predict(np.asarray([self.convertToHot(board)]), batch_size=1)[0]
-        selectedMove = 0
+        if self.player == 1:
+            best = 999
+            Qs = self.modelP1.predict(np.asarray([self.convertToHot(board)]), batch_size=1)[0]
+            selectedMove = 0
 
-        for r in range(3):
-            for c in range(3):
-                pos = r*3 + c + 1
-                if(board[r][c] == 0 and Qs[pos-1] > best):
-                    selectedMove = pos
-                    best = Qs[pos-1]
+            for r in range(3):
+                for c in range(3):
+                    pos = r*3 + c + 1
+                    if(board[r][c] == 0 and Qs[pos-1] < best):
+                        selectedMove = pos
+                        best = Qs[pos-1]
 
-        return selectedMove
+            return selectedMove
 
+        elif self.player == 2:
+            best = -999
+            Qs = self.modelP1.predict(np.asarray([self.convertToHot(board)]), batch_size=1)[0]
+            selectedMove = 0
+
+            for r in range(3):
+                for c in range(3):
+                    pos = r*3 + c + 1
+                    if(board[r][c] == 0 and Qs[pos-1] > best):
+                        selectedMove = pos
+                        best = Qs[pos-1]
+
+            return selectedMove
 
 
 def shuffle(states, q):
@@ -219,7 +232,7 @@ def shuffle(states, q):
     return newS, newQ
 
 if __name__ == '__main__':
-    agent = NeuralNetworkReinforcement()
+    agent = NeuralNetworkReinforcement(1)
     while True:
         agent.startTraining()
         if agent.epsilon > .5:

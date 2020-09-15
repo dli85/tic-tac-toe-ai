@@ -98,7 +98,7 @@ def play():
     elif aiNum == 4:
         currentTurn = 1
         g = Game()
-        agent = NeuralNetworkReinforcement()
+        agent = NeuralNetworkReinforcement(1)
 
         while g.checkWinner() == -1:
             g.printBoard()
