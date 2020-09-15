@@ -12,8 +12,7 @@ class minimaxAI:
             best = -999
 
         bestMoves = []
-
-        aiMove = -1
+        bestMove = -1
         for r in range(len(board)):
             for c in range(len(board)):
                 if board[r][c] == 0:
@@ -27,13 +26,13 @@ class minimaxAI:
                     if self.player == 2 and val < best:
                         best = val
                         aiMove = r*3 + c + 1
-                        bestMoves.append(aiMove)
+                        bestMove = aiMove
                     elif self.player == 1 and val > best:
                         best = val
                         aiMove = r*3 + c + 1
-                        bestMoves.append(aiMove)
+                        bestMove = aiMove
 
-        selectedMove = random.choice(bestMoves)
+        selectedMove = bestMove
         return selectedMove
 
     def minimax(self, temp_board, playerMaximizing):

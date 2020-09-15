@@ -182,8 +182,6 @@ class NeuralNetworkSupervised:
 
         pos = 0
 
-
-
         for r in range(len(board)):
             for c in range(len(board)):
                 if board[r][c] != bestBoardState[r][c]:
