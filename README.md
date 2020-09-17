@@ -21,11 +21,13 @@ Although minimax can play the game perfectly, it is very inefficient as minimax 
 
 Another way to construct a tic-tac-toe algorithm is to use a neural-network with supervised learning. The algorithm works by first constructing a dataset of many tic-tac-toe game histories. The features will consist of board states and the labels will be which player won. The data is collected by having two random bots play against each other and recording the outcomes. The model is then trained using the data to predict which player will win from a given board state.
 
-In a game scenario, the ai will first make an list of all the possible froms from the current board state. The model then predicts, for each new board state, which player will win. The model will then chose the move that gives itself the highest probability of winning.
+In a game scenario, the ai will first make an list of all the possible states from the current board state. The model then predicts, for each new board state, which player will win. The model will then chose the move that gives itself the highest probability of winning.
 
-You may notice that the neural network is not very good at defeating humans. This is because of the quaility of the dataset and the method of learning. The dataset only consisted of many randomAi vs randomAi games. Thus, predicting a winner for a given board state would be based on how a randomai bot might move, not how a minimax or a human would play. Also, a pure supervised learning strategy is not very effective for teaching models how to play games. The more effective strategy would be reinforcement learning...
+You may notice that the neural network is not very good at defeating humans. This is because of the quality of the dataset and the method of learning. The dataset only consisted of many randomAi vs randomAi games. Thus, predicting a winner for a given board state would be based on how a randomai bot might move, not how a minimax or a human would play. Also, a pure supervised learning strategy is not very effective for teaching models how to play games. The more effective strategy would be reinforcement learning...
 
-## Neural Network (Reinforcement learning) - unfinished
+## Neural Network (Reinforcement learning)
+
+The reinforcement learning algorithm works by training an agent/model through a reward system. At first, the agent does not know any game strategies, it only knows the rules. Through a process of exploration, the agent is able to determine the most rewarding path/strategy.
 
 # Usage
 
