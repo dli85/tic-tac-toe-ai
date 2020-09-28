@@ -27,7 +27,12 @@ You may notice that the neural network is not very good at defeating humans. Thi
 
 ## Neural Network (Reinforcement learning)
 
-The reinforcement learning algorithm works by training an agent/model through a reward system. At first, the agent does not know any game strategies, it only knows the rules. Through a process of exploration, the agent is able to determine the most rewarding path/strategy.
+The reinforcement learning algorithm works by training an agent/model through a reward system. At first, the agent does not know any game strategies, it only knows the rules. Through a process of exploration, the agent is able to determine the most rewarding path/strategy. The process for learning is the following:
+
+1. A new game is started.
+2. The two agents/models (one for player 1, the other for player 2) play against each other until the game is finished. Whenever an agent has to make a move, it uses the epsilon-greedy method to decided whether to make a random move or make the best possible move (exploration vs exploitation).
+3. Once the game is finished, the game history is recorded. Once enough games are finished, the learning starts.
+4. During learning, the game history is analyzed. Moves that result in a win are rewarded positively, moves resulting in a draw or a loss are rewarded similarly. Over time, the agents become better. 
 
 # Usage
 
