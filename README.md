@@ -2,9 +2,9 @@
 
 Several algorithms for the game tic tac toe:
 
-- Random (not very good)
-- Minimax (unbeatable)
-- Neural Network Supervised Learning (Not very good)
+- Random 
+- Minimax 
+- Neural Network Supervised Learning 
 - Neural Network Reinforcement Learning
 
 ## Random
