@@ -36,9 +36,9 @@ The reinforcement learning algorithm works by training an agent/model through a 
 
 # Usage
 
-Run the play.py file to play against any of the ai's
+Use the play.py file to play tic-tac-toe. You will be prompted to select which AI you would like to play against.
 
-The randomAi.py, minimaxAi.py, and NNS.py files contain the random bot, minimax bot, and neural network supervised learning bot respectively.
+The randomAi.py and the minimaxAi.py contain the random bot and the minimax bot respectively. The NNS.py and NNR.py are used to train the neural network supervised learning and the neural network reinforcement learning respectively.
 
 Run the datacollection.py file to see the results of AI's playing against each other.
 
