@@ -12,13 +12,6 @@ class NeuralNetworkReinforcement:
     def __init__(self, player):
         self.modelP1 = keras.models.Sequential()
 
-        self.modelP1.add(keras.layers.Dense(units=130, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=250, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=140, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=60, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(9, kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
-
 
         self.player = player
 
