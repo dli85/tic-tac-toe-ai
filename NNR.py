@@ -66,13 +66,13 @@ class NeuralNetworkReinforcement:
             new = []
             for i in player1Boards:
                 new.append(self.convertToHot(i))
-            self.modelP1.fit(np.asarray(new), np.asarray(player1QVals), epochs=6, batch_size=len(player1QVals), verbose=1)
+            self.modelP1.fit(np.asarray(new), np.asarray(player1QVals), epochs=6, batch_size=len(player1QVals), verbose=2)
             self.modelP1.save('models/NNRp1.h5')
         else:
             new = []
             for i in player2Boards:
                 new.append(self.convertToHot(i))
-            self.modelP2.fit(np.asarray(new), np.asarray(player2QVals), epochs=6, batch_size=len(player2QVals), verbose=1)
+            self.modelP2.fit(np.asarray(new), np.asarray(player2QVals), epochs=6, batch_size=len(player2QVals), verbose=2)
             self.modelP2.save('models/NNRp2.h5')
 
     def doLearning(self):
