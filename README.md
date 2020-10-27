@@ -40,6 +40,6 @@ Use the play.py file to play tic-tac-toe. You will be prompted to select which A
 
 The randomAi.py and the minimaxAi.py contain the random bot and the minimax bot respectively. The NNS.py and NNR.py are used to train the neural network supervised learning and the neural network reinforcement learning respectively.
 
-Run the datacollection.py file to see the results of AI's playing against each other.
+The datacollection.py program plays different types of AI's against each other. The results are then recorded.
 
-The game.py file contains the tic-tac-toe game
+The game.py file contains the tic-tac-toe game class which is used to play tic-tac-toe.
