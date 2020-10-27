@@ -6,29 +6,27 @@ import math
 from copy import deepcopy
 from tqdm import tqdm
 
-player1t = True
-
 class NeuralNetworkReinforcement:
     def __init__(self, player):
         self.modelP1 = keras.models.Sequential()
 
-        self.modelP1.add(keras.layers.Dense(units=130, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=250, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=140, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP1.add(keras.layers.Dense(units=60, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP1.add(keras.layers.Dense(128, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP1.add(keras.layers.Dense(256, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP1.add(keras.layers.Dense(64, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
         self.modelP1.add(keras.layers.Dense(9, kernel_initializer='random_uniform', bias_initializer='zeros'))
         self.modelP1.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
         self.modelP2 = keras.models.Sequential()
 
-        self.modelP2.add(keras.layers.Dense(units=130, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP2.add(keras.layers.Dense(units=250, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP2.add(keras.layers.Dense(units=140, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
-        self.modelP2.add(keras.layers.Dense(units=60, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP2.add(keras.layers.Dense(128, activation='relu', input_dim=27, kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP2.add(keras.layers.Dense(256, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
+        self.modelP2.add(keras.layers.Dense(64, activation='relu', kernel_initializer='random_uniform', bias_initializer='zeros'))
         self.modelP2.add(keras.layers.Dense(9, kernel_initializer='random_uniform', bias_initializer='zeros'))
         self.modelP2.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
         self.player = player
+
+        self.train1 = True
 
         try:
             self.modelP1 = keras.models.load_model('models/NNRp1.h5')
@@ -63,8 +61,21 @@ class NeuralNetworkReinforcement:
 
         return hot
 
+    def doFitting(self, player1Boards, player1QVals, player2Boards, player2QVals):
+        if self.train1:
+            new = []
+            for i in player1Boards:
+                new.append(self.convertToHot(i))
+            self.modelP1.fit(np.asarray(new), np.asarray(player1QVals), epochs=6, batch_size=len(player1QVals), verbose=1)
+            self.modelP1.save('models/NNRp1.h5')
+        else:
+            new = []
+            for i in player2Boards:
+                new.append(self.convertToHot(i))
+            self.modelP2.fit(np.asarray(new), np.asarray(player2QVals), epochs=6, batch_size=len(player2QVals), verbose=1)
+            self.modelP2.save('models/NNRp2.h5')
+
     def doLearning(self):
-        global player1t
         player1Boards = []
         player1QVals = []
         player2Boards = []
@@ -89,40 +100,23 @@ class NeuralNetworkReinforcement:
                         for c in range(3):
                             if game[i][r][c] != game[i+1][r][c]:
                                 rewards = np.zeros(9)
-                                rewards[r*3+c] = reward * (0.7 ** (math.floor((len(game) - i) / 2) - 1))
+                                rewards[r*3+c] = reward * (0.7**(math.floor((len(game)-i)/2)-1))
                                 player1Boards.append(deepcopy(game[i]))
-                                player1QVals.append(rewards.copy())
+                                tempArr = rewards.copy()
+                                player1QVals.append(tempArr)
                 else:
                     for r in range(3):
                         for c in range(3):
                             if game[i][r][c] != game[i+1][r][c]:
                                 rewards = np.zeros(9)
-                                rewards[r*3+c] = reward * (0.7 ** (math.floor((len(game) - i) / 2) - 1))
+                                rewards[r*3+c] = reward * (0.7**(math.floor((len(game)-i)/2)-1))
                                 player2Boards.append(deepcopy(game[i]))
-                                player2QVals.append(rewards.copy())
+                                tempArr = rewards.copy()
+                                player2QVals.append(tempArr)
 
-        if player1t:
-            player1Boards, player1QVals = (player1Boards, player1QVals)
-            new = []
-            for i in player1Boards:
-                new.append(self.convertToHot(i))
+        self.doFitting(player1Boards, player1QVals, player2Boards, player2QVals)
 
-            self.modelP1.fit(np.asarray(new), np.asarray(player1QVals), epochs=4, batch_size=len(player1QVals), verbose=1)
-            self.modelP1.save('models/NNRp1.h5')
-            del self.modelP1
-            self.modelP1 = keras.models.load_model('models/NNRp1.h5')
-        else:
-            player2Boards, player2QVals = (player2Boards, player2QVals)
-            new = []
-            for i in player2Boards:
-                new.append(self.convertToHot(i))
-
-            self.modelP2.fit(np.asarray(new), np.asarray(player2QVals), epochs=4, batch_size=len(player2QVals), verbose=1)
-            self.modelP2.save('models/NNRp2.h5')
-            del self.modelP2
-            self.modelP2 = keras.models.load_model('models/NNRp2.h5')
-
-        player1t = not player1t
+        self.train1 = not self.train1
 
 
     def getAvailMoves(self, board):
@@ -135,8 +129,7 @@ class NeuralNetworkReinforcement:
         return moves
 
     def startTraining(self, numGames=1000):
-        global player1t
-        if player1t:
+        if self.train1:
             print('training model 1')
         else:
             print('training model 2')
@@ -196,14 +189,14 @@ class NeuralNetworkReinforcement:
 
     def getMove(self, board):
         if self.player == 1:
-            best = 999
-            Qs = self.modelP1.predict(np.asarray([self.convertToHot(board)]), batch_size=1)[0]
+            best = -999
+            Qs = self.modelP2.predict(np.asarray([self.convertToHot(board)]), batch_size=1)[0]
             selectedMove = 0
 
             for r in range(3):
                 for c in range(3):
                     pos = r*3 + c + 1
-                    if(board[r][c] == 0 and Qs[pos-1] < best):
+                    if(board[r][c] == 0 and Qs[pos-1] > best):
                         selectedMove = pos
                         best = Qs[pos-1]
 
@@ -223,17 +216,10 @@ class NeuralNetworkReinforcement:
 
             return selectedMove
 
-
-def shuffle(states, q):
-    comp = zip((states, q))
-    comp = list(comp)
-    random.shuffle(comp)
-    newS, newQ = zip(*comp)
-    return newS, newQ
-
 if __name__ == '__main__':
     agent = NeuralNetworkReinforcement(1)
-    while True:
+    for i in range(80):
         agent.startTraining()
+        print('Training iteration number ' + str(i+1) + ' has finished.')
         if agent.epsilon > .5:
             agent.epsilon -= 0.01
