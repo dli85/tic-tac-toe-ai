@@ -7,6 +7,8 @@ Several algorithms for the game tic tac toe:
 - Neural Network Supervised Learning 
 - Neural Network Reinforcement Learning
 
+The minimax algorithm is capable of always playing a perfect game though neither neural network is capable of playing perfectly.
+
 ## Random
 
 The random algorithm randomly selects moves from the available ones. 
