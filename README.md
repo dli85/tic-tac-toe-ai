@@ -45,3 +45,11 @@ The randomAi.py and the minimaxAi.py contain the random bot and the minimax bot 
 The datacollection.py program plays different types of AI's against each other. The results are then recorded.
 
 The game.py file contains the tic-tac-toe game class which is used to play tic-tac-toe.
+
+# Requirements
+
+Use pip to install the required libraries
+
+```bash
+pip install tensorflow numpy
+```
